@@ -113,15 +113,15 @@ class Board:
         myteam = self.teams[self.turn]
         card = myteam.cards[card_id]
         log(j, self.frontline(self.turn))
-        if j > self.frontline(self.turn):
-            log('Frontline Error')
-            return
         if myteam.mena < card.mena:
             log('Mena Failure')
             return
         if target is None:
             if card.target is not None:
                 log('Please Select Target')
+                return
+            if j > self.frontline(self.turn):
+                log('Frontline Error')
                 return
             self.set(card, (i, j))
             myteam.mena -= card.mena
@@ -221,8 +221,9 @@ class Team:
         self.new_turn()
 
     def draw_cards(self, stdscr):
+        # clear alk deck area
         for i in range(MAX_DECK*3):
-            stdscr.addstr(i+PADDING_TOP, MCOLS*4+PADDING_LEFT+1, ' '*8)
+            stdscr.addstr(i+PADDING_TOP, MCOLS*4+PADDING_LEFT+1, ' '*10)
         for i, card in enumerate(self.cards):
             stdscr.addstr(i*3+PADDING_TOP, MCOLS*4+PADDING_LEFT+1,
                           card.__class__.__name__, COLOR[self.name])
