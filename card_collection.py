@@ -24,6 +24,14 @@ class Unit:
         pass
 
 
+class Expresn(Unit):
+    name = 'EXP'
+    kingdom = 'NEUTRAL'
+    speed = 0
+    mena = 1
+    strength = 1
+
+
 class Lambda(Unit):
     name = 'LMD'
     kingdom = 'PYTHON'
@@ -57,3 +65,20 @@ class Cmphensn(Unit):
     speed = 2
     mena = 1
     strength = 2
+
+
+class Egg(Unit):
+    name = 'EGG'
+    kingdom = 'PYTHON'
+    speed = 0
+    mena = 5
+    strength = 2
+
+    def onplay(self, board):
+        for pos in board.bordering(self.pos):
+            if board.get(pos, self.team) is not None:
+                continue
+            board.set(Expresn(self.team), pos, team=self.team)
+
+
+ALL_CARDS = (Class, Function, Lambda, Cmphensn, Expresn, Egg)

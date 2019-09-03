@@ -1,6 +1,6 @@
 from card_collection import *
 
 teams = {
-    'BLUE': (Class, Cmphensn, Function, Lambda),
-    'RED': (Class, Cmphensn, Function, Lambda)
+    'BLUE': ALL_CARDS, # (Class, Cmphensn, Egg),
+    'RED': ALL_CARDS # (Class, Function,  Egg)
 }

@@ -43,6 +43,8 @@ class Board:
         return self.data[i][j]
 
     def set(self, unit, pos, team=None):
+        if unit is not None:
+            unit.pos = pos
         i, j = pos
         if team is None:
             if unit is not None:
@@ -160,6 +162,9 @@ class Board:
         enermy_unit = self.get(pos1)
         if enermy_unit is None:
             self.set(unit, pos1)
+        elif enermy_unit.team == self.turn:
+            unit.speed = 0
+            self.set(unit, pos0)
         else:
             unit.onattack(self, enermy_unit)
             if unit.strength < enermy_unit.strength:
@@ -183,6 +188,27 @@ class Board:
         for i, j, unit in self.iter_unit(self.turn):
             self.gounit((i, j), (i, j+1))
         self.draw()
+
+    def surrounding(self, pos):
+        i, j = pos
+        for di in (-1, 0, 1):
+            for dj in (-1, 0, 1):
+                if di == dj == 0:
+                    continue
+                ri, rj = i+di, j+dj
+                if 0 <= ri < MLINE and 0 <= rj < MCOLS:
+                    yield ri, rj
+
+    def bordering(self, pos):
+        i, j = pos
+        for di in (-1, 0, 1):
+            for dj in (-1, 0, 1):
+                if abs(di+dj) != 1:
+                    continue
+                ri, rj = i+di, j+dj
+                if 0 <= ri < MLINE and 0 <= rj < MCOLS:
+                    yield ri, rj
+
 
 
 class Team:
