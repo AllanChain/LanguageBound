@@ -69,8 +69,20 @@ class Increment(Unit):
     mena = 1
     strength = 1
     target = True
+
     def onplay(self, board, target=None):
         target.strength += self.strength
+
+
+class Decrement(Unit):
+    mena = 1
+    strength = 1
+    target = False
+
+    def onplay(self, board, target=None):
+        target.strength -= self.strength
+        if target.strength <= 0:
+            board.set(None, board.get(target.pos))
 
 
 class Egg(Unit):
@@ -87,4 +99,5 @@ class Egg(Unit):
             board.set(Expression(self.team), pos, team=self.team)
 
 
-ALL_CARDS = (Class, Function, Lambda, Cmprehensn, Expression, Egg, Increment)
+ALL_CARDS = (Class, Function, Lambda, Cmprehensn, Expression, Egg, Increment,
+             Decrement)
